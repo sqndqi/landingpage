@@ -69,6 +69,21 @@ section{padding:70px 0;border-bottom:1px solid var(--line);scroll-margin-top:56p
 .bandpill.high{background:rgba(74,143,212,.13);color:#7ab0e0;border:1px solid rgba(74,143,212,.3)}
 .bandpill.mid{background:rgba(106,106,120,.16);color:var(--ink-2);border:1px solid var(--line-2)}
 
+.keyswitch{display:flex;flex-wrap:wrap;gap:6px;padding:11px 14px;border-bottom:1px solid var(--line);background:var(--bg-3)}
+.keyswitch .kb{font-family:var(--mono);font-size:10px;letter-spacing:.04em;padding:5px 9px;border:1px solid var(--line-2);border-radius:5px;color:var(--ink-3);background:var(--bg-2);transition:.15s}
+.keyswitch .kb:hover{color:var(--ink);border-color:var(--ink-3)}
+.keyswitch .kb.on{background:var(--gold);border-color:var(--gold);color:#151006;font-weight:700}
+.keynote{padding:9px 16px;border-bottom:1px solid var(--line);font-size:11.5px;color:var(--ink-3);background:rgba(223,174,76,.05)}
+.keycount{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-left:8px}
+
+.searchbar{display:flex;gap:10px;align-items:center;margin-bottom:18px;flex-wrap:wrap}
+.searchbar input{flex:1;min-width:220px;max-width:340px;font-family:var(--mono);font-size:12.5px;padding:10px 14px;background:var(--bg-3);color:var(--ink);border:1px solid var(--line-2);border-radius:8px}
+.searchbar input:focus{outline:none;border-color:var(--accent)}
+.searchbar input::placeholder{color:var(--ink-3)}
+.searchbar .count{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);letter-spacing:.06em}
+.bandgroup.hide{display:none}
+.tab.hide{display:none}
+
 .statblock{border:1px solid var(--line);border-radius:10px;background:var(--bg-2);overflow:hidden}
 .sb-head{padding:13px 17px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,rgba(212,52,47,.15),transparent);display:flex;justify-content:space-between;align-items:center;gap:10px}
 .sb-head .t{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase}
@@ -262,6 +277,10 @@ footer p + p{margin-top:9px}
       <div class="eyebrow">01 — Dossiers</div>
       <h2>The roster</h2>
       <p>Twenty-one fighters, grouped by band. Stat lines are quoted from VS Battles Wiki; the reads underneath them are mine. Every feat card takes a panel — click or drag an image onto it.</p>
+    </div>
+    <div class="searchbar">
+      <input type="text" id="rsearch" placeholder="Filter the roster — name, band or escalator" autocomplete="off">
+      <span class="count" id="rcount"></span>
     </div>
     <div id="tabs"></div>
     <div id="dossier"></div>
@@ -706,6 +725,48 @@ var VERDICTS = {
 };
 
 /* ═══════════════════════════════════════════════════════════════
+   KEYS — versions of a character rated separately by the wiki.
+   Each key's `s` is merged over the character's base stat block.
+═══════════════════════════════════════════════════════════════ */
+var KEYS = {
+james:[
+ {n:"Baseline",s:{"Tier":"At least 9-A","Att. Potency":"Small Building level","Key note":"Before either stated escalation"}},
+ {n:"Awakening",s:{"Tier":"Likely High 8-C","Att. Potency":"Large Building level","Key note":"First stated step above baseline"}},
+ {n:"Path",s:{"Tier":"At least High 8-C, higher with Path","Att. Potency":"Above Large Building level — no stated ceiling","Key note":"Upward-open: argue this separately from the baseline"}}],
+charles:[
+ {n:"Prime",s:{"Tier":"At least High 8-C","Att. Potency":"Large Building level","Key note":"Gapryong-era second-in-command; rated above a prime Tom Lee"}},
+ {n:"Current",s:{"Tier":"At least 9-A","Att. Potency":"Small Building level","Key note":"A full band below his prime — never argue him without a key"}}],
+eli:[
+ {n:"Key 1",s:{"Tier":"At least 9-B","Att. Potency":"Wall level","Key note":"Earliest rated version"}},
+ {n:"Key 2 — Beast Mode",s:{"Tier":"At least 9-B, likely higher","Att. Potency":"Wall level, likely higher","Key note":"\"Likely higher\" with no bound — the vaguest escalator in the verse"}},
+ {n:"Key 3",s:{"Tier":"At least 9-A","Att. Potency":"Small Building level","Key note":"Post-Workers climb"}},
+ {n:"Key 4",s:{"Tier":"At least 9-A","Att. Potency":"Small Building level","Key note":"Current key"}}],
+samuel:[
+ {n:"Pre-Workers",s:{"Speed":"At least Subsonic","Key note":"Anchored to an even fight with Eli Jang"}},
+ {n:"Mid",s:{"Speed":"At least Subsonic+","Key note":"Above the Eli anchor"}},
+ {n:"Current",s:{"Speed":"At least Subsonic+, possibly Supersonic","Key note":"From controlling most of a fight with current-key Jake Kim"}}],
+vasco:[
+ {n:"Pre-timeskip",s:{"Lifting":"Class 5 — the mid-tier floor","Key note":"One end of the stated mid-tier range"}},
+ {n:"Post-training",s:{"Tier":"9-A","Key note":"Johan Seong is stated above this version specifically"}},
+ {n:"Forbidden Techniques",s:{"Key note":"Jake Kim contended with this state casually — the escalator got beaten"}}],
+xiaolung:[
+ {n:"Base",s:{"Tier":"9-B","Att. Potency":"Wall level"}},
+ {n:"Cheon Houigong",s:{"Tier":"At least 9-A","Att. Potency":"Small Building level","Key note":"A full band off one technique — bounded, so cleanly scalable"}}],
+goo:[
+ {n:"Base",s:{"Att. Potency":"Large Building level","Speed":"At least Supersonic"}},
+ {n:"Moonlight Style",s:{"Att. Potency":"Far higher — no stated ceiling","Speed":"Far higher — no stated ceiling","Key note":"Unbounded: the reason his upper end is unfalsifiable"}}],
+gun:[
+ {n:"Base",s:{"Att. Potency":"Large Building level","Key note":"Ultra Instinct is already running — it never switches off"}},
+ {n:"Uncontrolled UI",s:{"Att. Potency":"Above his controlled state","Key note":"Rated higher again; the state he does not choose"}}],
+daniel:[
+ {n:"Early fight",s:{"Att. Potency":"Small Building level+","Key note":"Before adaptation compounds — his most beatable window"}},
+ {n:"Late fight",s:{"Att. Potency":"Large Building level","Key note":"After reading the opponent; where the arm fractures happened"}}],
+johan:[
+ {n:"Base",s:{"Att. Potency":"At least Small Building level","Key note":"Stated above Jake, Samuel and post-training Vasco"}},
+ {n:"UI Mode",s:{"Att. Potency":"Full Power Ui Daniel level","Key note":"Hard 10-second cap — the only bounded escalator in the verse"}}]
+};
+
+/* ═══════════════════════════════════════════════════════════════
    PANEL STORE — images live in this browser only.
 ═══════════════════════════════════════════════════════════════ */
 var KEY = "lookism-panels-v1", TKEY = "lookism-tierlist-v1";
@@ -766,13 +827,36 @@ document.body.appendChild(picker);
 /* ── roster ── */
 var BANDS = [["apex","Apex"],["god","God tier"],["high","High tier"],["mid","Mid tier"]];
 
+var keyState = {};
+
 function renderDossier(c){
-  var statRows = "";
-  for (var k in c.stats){
-    var cls = (k === "Tier" || k === "Revised") ? ' class="tv"' : "";
-    statRows += "<dt>" + k + "</dt><dd" + cls + ">" + c.stats[k] + "</dd>";
+  var keys = KEYS[c.id] || null;
+  var ki = keyState[c.id] || 0;
+  if (keys && ki >= keys.length) ki = 0;
+  var stats = c.stats;
+  if (keys){
+    stats = {};
+    for (var b in c.stats) stats[b] = c.stats[b];
+    var ks = keys[ki].s;
+    for (var o in ks) stats[o] = ks[o];
   }
+
+  var statRows = "";
+  for (var k in stats){
+    var cls = (k === "Tier" || k === "Revised") ? ' class="tv"' : "";
+    if (k === "Key note") continue;
+    statRows += "<dt>" + k + "</dt><dd" + cls + ">" + stats[k] + "</dd>";
+  }
+
   var bandName = BANDS.filter(function(b){ return b[0] === c.band; })[0][1];
+  var switcher = "", note = "";
+  if (keys){
+    switcher = '<div class="keyswitch">' + keys.map(function(kk, i){
+      return '<button class="kb' + (i === ki ? " on" : "") + '" data-k="' + i + '">' + kk.n + "</button>";
+    }).join("") + "</div>";
+    if (stats["Key note"]) note = '<div class="keynote">' + stats["Key note"] + "</div>";
+  }
+
   var cards = c.feats.map(function(f){
     return '<div class="pcard"><div class="slot" data-id="' + f.id + '"></div>' +
       '<div class="cap"><span class="ch">' + f.era + '</span><span class="tx">' + f.cap + '</span></div>' +
@@ -784,11 +868,17 @@ function renderDossier(c){
   document.getElementById("dossier").innerHTML =
     '<div class="dossier"><div class="dos-main">' +
       '<span class="bandpill ' + c.band + '">' + bandName + (c.esc ? ' · ' + c.esc : '') + '</span>' +
-      '<h3 class="name">' + c.name + '</h3><div class="alias">' + c.alias + '</div>' +
+      '<h3 class="name">' + c.name +
+        (keys ? '<span class="keycount">' + keys.length + ' keys</span>' : '') + '</h3>' +
+      '<div class="alias">' + c.alias + '</div>' +
       '<p class="summary">' + c.summary + '</p></div>' +
     '<div class="statblock"><div class="sb-head"><div class="t">Stat Block</div><div class="src">per VS Battles Wiki</div></div>' +
-      "<dl>" + statRows + "</dl></div></div>" +
+      switcher + note + "<dl>" + statRows + "</dl></div></div>" +
     '<div class="panelgrid">' + cards + "</div>";
+
+  document.querySelectorAll(".keyswitch .kb").forEach(function(btn){
+    btn.onclick = function(){ keyState[c.id] = +btn.dataset.k; renderDossier(c); };
+  });
 
   c.feats.forEach(function(f){
     paintSlot(f.id);
@@ -823,6 +913,28 @@ document.querySelector("#tabs .tab").classList.add("on");
 renderDossier(CHARS[0]);
 document.getElementById("stat-chars").textContent = CHARS.length;
 document.getElementById("stat-feats").textContent = ALLFEATS.length;
+
+/* ── roster search: filters tabs by name, band or escalator ── */
+var rsearch = document.getElementById("rsearch"), rcount = document.getElementById("rcount");
+function haystack(c){
+  var bandName = BANDS.filter(function(b){ return b[0] === c.band; })[0][1];
+  return (c.name + " " + c.short + " " + c.alias + " " + bandName + " " + (c.esc || "")).toLowerCase();
+}
+function applyFilter(){
+  var q = rsearch.value.trim().toLowerCase(), shown = 0;
+  CHARS.forEach(function(c){
+    var tab = document.querySelector('#tabs .tab[data-id="' + c.id + '"]');
+    var hit = !q || haystack(c).indexOf(q) !== -1;
+    tab.classList.toggle("hide", !hit);
+    if (hit) shown++;
+  });
+  document.querySelectorAll(".bandgroup").forEach(function(g){
+    g.classList.toggle("hide", !g.querySelectorAll(".tab:not(.hide)").length);
+  });
+  rcount.textContent = q ? shown + " of " + CHARS.length + " shown" : CHARS.length + " fighters";
+}
+rsearch.oninput = applyFilter;
+applyFilter();
 
 /* ── chain ── */
 document.getElementById("chain").innerHTML = CHAIN.map(function(l){
