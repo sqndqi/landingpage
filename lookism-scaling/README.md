@@ -12,7 +12,15 @@ Open `index.html` in a browser. No build step, no dependencies, no server.
 - **The scaling chain** — five steps from the verse's one quantified anchor up to
   the apex, each tagged for whether it rests on on-page evidence, inference, or
   the author's own read.
+- **Relation graph** — every on-page comparison the ladder is built from, drawn
+  as a network. Hover a node to isolate its edges, click to open the dossier. A
+  degree count underneath names the load-bearing nodes and the placements that
+  hang off a single comparison.
 - **Arc-by-arc timeline** from the 1st Generation through to DG's return.
+- **Per-character key selector** — 13 separately-rated versions across 10
+  fighters, each merging over the character's base stat block.
+- **Chapter fields** on every feat card, saved to your browser, so citations
+  become real as you fill them in.
 - **Tier list builder** — drag fighters into S/A/B/C/D rows, saved to your
   browser. Seed it from the site's ladder and then disagree with it.
 - **Bracket simulator** — eight fighters resolved by band gap, then unbounded
@@ -53,9 +61,10 @@ Two things are flagged in the page itself:
 - The Younger Goo dual-wield exchange that anchors the verse's Supersonic band is
   cited inconsistently across wiki profiles as to whose feat it is. The resulting
   band holds under either reading.
-- Feat cards carry **era and arc tags, not chapter numbers**. A fabricated
-  citation is worse than none, because it looks checkable and isn't — so the
-  chapter field is left for you to fill in from your own reading.
+- Feat cards ship with **era and arc tags, not chapter numbers**. A fabricated
+  citation is worse than none, because it looks checkable and isn't — so each
+  card has an editable chapter field for you to fill in from your own reading.
+  Whatever you type is saved to your browser alongside the panels.
 
 ## Licence / affiliation
 

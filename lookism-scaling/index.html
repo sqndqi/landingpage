@@ -84,6 +84,38 @@ section{padding:70px 0;border-bottom:1px solid var(--line);scroll-margin-top:56p
 .bandgroup.hide{display:none}
 .tab.hide{display:none}
 
+/* relation graph */
+.graphwrap{border:1px solid var(--line);border-radius:10px;background:var(--bg-2);padding:14px;overflow-x:auto}
+.graphwrap svg{display:block;min-width:900px}
+.gnode rect{fill:var(--bg-3);stroke:var(--line-2);stroke-width:1;rx:6;transition:.18s;cursor:pointer}
+.gnode text{fill:var(--ink-2);font-family:var(--mono);font-size:10px;pointer-events:none}
+.gnode:hover rect{stroke:var(--accent);fill:var(--bg-4)}
+.gnode:hover text{fill:#fff}
+.gnode.dim rect{opacity:.22}
+.gnode.dim text{opacity:.22}
+.gedge{fill:none;stroke-width:1.6;transition:.18s}
+.gedge.dim{opacity:.07}
+.gedge.beat{stroke:var(--accent)}
+.gedge.above{stroke:var(--gold)}
+.gedge.even{stroke:var(--ink-3);stroke-dasharray:4 3}
+.gedge.contested{stroke:var(--blue);stroke-dasharray:2 3}
+.glegend{display:flex;flex-wrap:wrap;gap:16px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.glegend div{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10px;color:var(--ink-3);letter-spacing:.05em}
+.glegend i{width:20px;height:0;border-top:2px solid;display:inline-block}
+.gbandlbl{fill:var(--ink-3);font-family:var(--mono);font-size:8.5px;letter-spacing:.14em}
+.gload{margin-top:16px;padding:13px 16px;border-left:2px solid var(--accent);background:rgba(212,52,47,.06);font-size:13.5px;color:var(--ink-2)}
+.gload b{color:var(--ink);display:block;margin-bottom:4px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--accent)}
+
+/* chapter field on feat cards */
+.chin{width:46px;font-family:var(--mono);font-size:9.5px;padding:2px 5px;background:var(--bg-3);color:var(--gold);border:1px solid var(--line-2);border-radius:4px;text-align:center;flex-shrink:0}
+.chin:focus{outline:none;border-color:var(--accent)}
+.chin::placeholder{color:var(--ink-3)}
+
+/* comparator key selects */
+.cmp-keys{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.cmp-keys select{font-size:10.5px;padding:5px 8px;border-radius:5px}
+.keyflag{margin-top:12px;padding:9px 13px;border-left:2px solid var(--gold);background:rgba(223,174,76,.07);font-size:13px;color:var(--ink-2)}
+
 .statblock{border:1px solid var(--line);border-radius:10px;background:var(--bg-2);overflow:hidden}
 .sb-head{padding:13px 17px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,rgba(212,52,47,.15),transparent);display:flex;justify-content:space-between;align-items:center;gap:10px}
 .sb-head .t{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase}
@@ -250,6 +282,7 @@ footer p + p{margin-top:9px}
     <div class="brand">LOOKISM<span>//</span>SCALING</div>
     <div class="navlinks">
       <a href="#roster">Roster</a><a href="#chain">Chain</a><a href="#ladder">Ladder</a>
+      <a href="#graph">Graph</a>
       <a href="#timeline">Timeline</a><a href="#tierlist">Tier list</a><a href="#bracket">Bracket</a>
       <a href="#compare">Compare</a><a href="#panels">Panels</a><a href="#method">Method</a><a href="#sources">Sources</a>
     </div>
@@ -313,10 +346,30 @@ footer p + p{margin-top:9px}
   </div>
 </section>
 
+<section id="graph">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">04 — The network</div>
+      <h2>Who beat whom</h2>
+      <p>The ladder is built entirely out of comparisons, so here they are as a network. Every edge is a specific on-page relationship. What matters is which nodes carry many edges and which placements hang off a single thread — those are the ones that move if one reading changes.</p>
+    </div>
+    <div class="graphwrap">
+      <svg id="gsvg" viewBox="0 0 1100 470" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Network of on-page comparisons between Lookism characters"></svg>
+      <div class="glegend">
+        <div><i style="border-color:var(--accent)"></i>Beat / damaged</div>
+        <div><i style="border-color:var(--gold)"></i>Stated above</div>
+        <div><i style="border-color:var(--ink-3)"></i>Even / comparable</div>
+        <div><i style="border-color:var(--blue)"></i>Contested</div>
+      </div>
+    </div>
+    <div class="gload" id="gload"></div>
+  </div>
+</section>
+
 <section id="timeline">
   <div class="wrap">
     <div class="sec-head">
-      <div class="eyebrow">04 — Chronology</div>
+      <div class="eyebrow">05 — Chronology</div>
       <h2>Arc by arc</h2>
       <p>When each fighter peaked, who beat whom, and how the ladder moved. Era ordering is reliable; exact chapter numbers are not something this page invents.</p>
     </div>
@@ -327,7 +380,7 @@ footer p + p{margin-top:9px}
 <section id="tierlist">
   <div class="wrap">
     <div class="sec-head">
-      <div class="eyebrow">05 — Your ranking</div>
+      <div class="eyebrow">06 — Your ranking</div>
       <h2>Tier list builder</h2>
       <p>Drag fighters into rows. Saved to this browser, so it's still here next time. Disagreeing with my ladder is the point.</p>
     </div>
@@ -345,7 +398,7 @@ footer p + p{margin-top:9px}
 <section id="bracket">
   <div class="wrap">
     <div class="sec-head">
-      <div class="eyebrow">06 — Tournament</div>
+      <div class="eyebrow">07 — Tournament</div>
       <h2>Bracket simulator</h2>
       <p>Eight fighters, run through the site's own scaling logic — band gap first, then unbounded escalators, then technical read. Every call shows its reasoning, and genuine coin flips are labeled as coin flips rather than pretending to certainty.</p>
     </div>
@@ -360,7 +413,7 @@ footer p + p{margin-top:9px}
 <section id="compare">
   <div class="wrap">
     <div class="sec-head">
-      <div class="eyebrow">07 — Head to head</div>
+      <div class="eyebrow">08 — Head to head</div>
       <h2>Compare</h2>
       <p>Two fighters, stat lines side by side, and my read on what actually decides it.</p>
     </div>
@@ -373,7 +426,7 @@ footer p + p{margin-top:9px}
 <section id="panels">
   <div class="wrap">
     <div class="sec-head">
-      <div class="eyebrow">08 — Your panels</div>
+      <div class="eyebrow">09 — Your panels</div>
       <h2>Panel manager</h2>
       <p>Every feat card is a drop target. Drag an image onto it, or click to browse — it saves to this browser and stays put across reloads. No files to commit, no filenames to match.</p>
     </div>
@@ -400,7 +453,7 @@ footer p + p{margin-top:9px}
 <section id="method">
   <div class="wrap">
     <div class="sec-head">
-      <div class="eyebrow">09 — How this was built</div>
+      <div class="eyebrow">10 — How this was built</div>
       <h2>Method &amp; honest limits</h2>
       <p>The rules I held to, and the four places this is weakest.</p>
     </div>
@@ -436,7 +489,7 @@ footer p + p{margin-top:9px}
 <section id="sources">
   <div class="wrap">
     <div class="sec-head">
-      <div class="eyebrow">10 — Where this came from</div>
+      <div class="eyebrow">11 — Where this came from</div>
       <h2>Sources</h2>
       <p>Tiers, calcs and stat lines are quoted from VS Battles Wiki, which revises them regularly. Chain, ladder placements, timeline framing and matchup calls are mine.</p>
     </div>
@@ -725,6 +778,35 @@ var VERDICTS = {
 };
 
 /* ═══════════════════════════════════════════════════════════════
+   EDGES — every on-page comparison the ladder is built from.
+   type: beat | above (stated) | even | contested
+═══════════════════════════════════════════════════════════════ */
+var EDGES = [
+{a:"daniel",b:"gun",t:"beat",l:"fractured his arm"},
+{a:"daniel",b:"goo",t:"beat",l:"fractured his arm"},
+{a:"gun",b:"goo",t:"even",l:"repeated stalemates"},
+{a:"james",b:"taesoo",t:"beat",l:"took his right eye"},
+{a:"james",b:"gongseob",t:"beat",l:"cost him his right leg"},
+{a:"charles",b:"tom",t:"above",l:"rated superior to prime Tom"},
+{a:"tom",b:"jinyoung",t:"even",l:"rated comparable"},
+{a:"jinyoung",b:"kitae",t:"contested",l:"fought an older Kitae and held"},
+{a:"johan",b:"jake",t:"above",l:"Jake states Johan is stronger"},
+{a:"johan",b:"samuel",t:"above",l:"Samuel states Johan is stronger"},
+{a:"johan",b:"vasco",t:"above",l:"stated above post-training Vasco"},
+{a:"samuel",b:"eli",t:"even",l:"even at pre-Workers keys"},
+{a:"samuel",b:"jake",t:"contested",l:"led most of it; Jake won late"},
+{a:"jake",b:"xiaolung",t:"beat",l:"defeated him"},
+{a:"jake",b:"sinu",t:"even",l:"fights relative to him"},
+{a:"jake",b:"vasco",t:"even",l:"comparable; handled Forbidden Techniques"},
+{a:"seokdu",b:"zack",t:"above",l:"rates above the cluster on durability"},
+{a:"seokdu",b:"vinjin",t:"above",l:"rates above the cluster"},
+{a:"seokdu",b:"olly",t:"above",l:"rates above the cluster"},
+{a:"zack",b:"vinjin",t:"even",l:"both calc'd Class 25"},
+{a:"zack",b:"olly",t:"even",l:"same scaling cluster"},
+{a:"vasco",b:"vinjin",t:"even",l:"the two ends of the mid-tier range"}
+];
+
+/* ═══════════════════════════════════════════════════════════════
    KEYS — versions of a character rated separately by the wiki.
    Each key's `s` is merged over the character's base stat block.
 ═══════════════════════════════════════════════════════════════ */
@@ -769,7 +851,10 @@ johan:[
 /* ═══════════════════════════════════════════════════════════════
    PANEL STORE — images live in this browser only.
 ═══════════════════════════════════════════════════════════════ */
-var KEY = "lookism-panels-v1", TKEY = "lookism-tierlist-v1";
+var KEY = "lookism-panels-v1", TKEY = "lookism-tierlist-v1", CKEY = "lookism-chapters-v1";
+var chapters = {};
+try { chapters = JSON.parse(localStorage.getItem(CKEY) || "{}"); } catch (e) { chapters = {}; }
+function saveChapters(){ try { localStorage.setItem(CKEY, JSON.stringify(chapters)); } catch (e) {} }
 var store = {};
 try { store = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) { store = {}; }
 
@@ -859,7 +944,9 @@ function renderDossier(c){
 
   var cards = c.feats.map(function(f){
     return '<div class="pcard"><div class="slot" data-id="' + f.id + '"></div>' +
-      '<div class="cap"><span class="ch">' + f.era + '</span><span class="tx">' + f.cap + '</span></div>' +
+      '<div class="cap"><span class="ch">' + f.era + '</span>' +
+      '<input class="chin" data-cid="' + f.id + '" placeholder="ch." value="' + (chapters[f.id] || "") + '" title="Chapter number — saved to this browser">' +
+      '<span class="tx">' + f.cap + '</span></div>' +
       '<div class="body"><h3>' + f.title + '</h3><p>' + f.text + '</p>' +
       (f.quant ? '<div class="quant">' + f.quant + '</div>' : '') +
       '<div class="w">' + f.w + '</div></div></div>';
@@ -887,6 +974,13 @@ function renderDossier(c){
     slot.ondragover = function(e){ e.preventDefault(); slot.classList.add("drag"); };
     slot.ondragleave = function(){ slot.classList.remove("drag"); };
     slot.ondrop = function(e){ e.preventDefault(); slot.classList.remove("drag"); readInto(f.id, e.dataTransfer.files[0]); };
+
+    var ch = document.querySelector('.chin[data-cid="' + f.id + '"]');
+    ch.oninput = function(){
+      var v = ch.value.trim();
+      if (v) chapters[f.id] = v; else delete chapters[f.id];
+      saveChapters();
+    };
   });
 }
 
@@ -961,6 +1055,84 @@ document.getElementById("timeline").innerHTML = TIMELINE.map(function(e){
     e.body.map(function(p){ return "<p>" + p + "</p>"; }).join("") +
     '<div class="who">' + e.who.map(function(w){ return "<span>" + w + "</span>"; }).join("") + "</div></div></div>";
 }).join("");
+
+/* ═══════════════════════════════════════════════════════════════
+   RELATION GRAPH — the comparisons the ladder is built from
+═══════════════════════════════════════════════════════════════ */
+(function(){
+  var W = 1100, ROWY = { apex:52, god:158, high:282, mid:406 };
+  var involved = {};
+  EDGES.forEach(function(e){ involved[e.a] = 1; involved[e.b] = 1; });
+  var nodes = {}, svg = document.getElementById("gsvg");
+
+  BANDS.forEach(function(bd){
+    var row = CHARS.filter(function(c){ return c.band === bd[0] && involved[c.id]; });
+    var step = W / (row.length + 1);
+    row.forEach(function(c, i){ nodes[c.id] = { c: c, x: step * (i + 1), y: ROWY[bd[0]] }; });
+  });
+
+  var parts = [];
+  Object.keys(ROWY).forEach(function(b){
+    var nm = BANDS.filter(function(x){ return x[0] === b; })[0][1].toUpperCase();
+    parts.push('<text class="gbandlbl" x="6" y="' + (ROWY[b] - 22) + '">' + nm + "</text>");
+  });
+
+  EDGES.forEach(function(e, i){
+    var A = nodes[e.a], B = nodes[e.b];
+    if (!A || !B) return;
+    var mx = (A.x + B.x) / 2, my = (A.y + B.y) / 2 + (A.y === B.y ? 40 : 0);
+    parts.push('<path class="gedge ' + e.t + '" id="ge' + i + '" d="M' + A.x + ',' + A.y +
+      " Q" + mx + "," + my + " " + B.x + "," + B.y + '"><title>' +
+      A.c.name + " / " + B.c.name + " — " + e.l + "</title></path>");
+  });
+
+  Object.keys(nodes).forEach(function(id){
+    var n = nodes[id], label = n.c.short.replace(/ \(.*\)/, "");
+    var w = Math.max(64, label.length * 6.3 + 16);
+    parts.push('<g class="gnode" data-id="' + id + '">' +
+      '<rect x="' + (n.x - w / 2) + '" y="' + (n.y - 13) + '" width="' + w + '" height="26"></rect>' +
+      '<text x="' + n.x + '" y="' + (n.y + 4) + '" text-anchor="middle">' + label + "</text>" +
+      "<title>" + n.c.name + " — " + n.c.alias + "</title></g>");
+  });
+  svg.innerHTML = parts.join("");
+
+  svg.querySelectorAll(".gnode").forEach(function(g){
+    var id = g.dataset.id;
+    g.onmouseenter = function(){
+      var keep = {}; keep[id] = 1;
+      EDGES.forEach(function(e, i){
+        var hit = e.a === id || e.b === id;
+        var el = document.getElementById("ge" + i);
+        if (el) el.classList.toggle("dim", !hit);
+        if (hit){ keep[e.a] = 1; keep[e.b] = 1; }
+      });
+      svg.querySelectorAll(".gnode").forEach(function(o){ o.classList.toggle("dim", !keep[o.dataset.id]); });
+    };
+    g.onmouseleave = function(){
+      svg.querySelectorAll(".gedge").forEach(function(o){ o.classList.remove("dim"); });
+      svg.querySelectorAll(".gnode").forEach(function(o){ o.classList.remove("dim"); });
+    };
+    g.onclick = function(){
+      var tab = document.querySelector('#tabs .tab[data-id="' + id + '"]');
+      if (tab){ tab.click(); document.getElementById("roster").scrollIntoView(); }
+    };
+  });
+
+  var deg = {};
+  EDGES.forEach(function(e){ deg[e.a] = (deg[e.a] || 0) + 1; deg[e.b] = (deg[e.b] || 0) + 1; });
+  var ranked = Object.keys(deg).sort(function(x, y){ return deg[y] - deg[x]; });
+  var thin = CHARS.filter(function(c){ return involved[c.id] && deg[c.id] === 1; }).map(function(c){ return c.name; });
+  var hub = ranked.slice(0, 3).map(function(id){
+    var c = CHARS.filter(function(x){ return x.id === id; })[0];
+    return c.name + " (" + deg[id] + ")";
+  });
+  document.getElementById("gload").innerHTML =
+    "<b>What the ladder leans on</b>Most connected: <strong>" + hub.join("</strong>, <strong>") +
+    "</strong>. Move one of those and the band around it moves with it." +
+    (thin.length ? " Hanging off a single comparison: <strong>" + thin.join("</strong>, <strong>") +
+    "</strong> — change that one reading and the placement has nothing left holding it." : "") +
+    " Hover a node to isolate its comparisons; click to open the dossier.";
+})();
 
 /* ═══════════════════════════════════════════════════════════════
    TIER LIST BUILDER — drag chips into rows, saved per browser.
@@ -1115,14 +1287,53 @@ CHARS.forEach(function(c){
   });
 });
 selA.value = "james"; selB.value = "gun";
-function side(c){
-  var rows = "";
-  for (var k in c.stats) rows += '<div class="cmp-row"><span class="k">' + k + '</span><span class="v">' + c.stats[k] + "</span></div>";
-  return '<div class="cmp-side"><h4>' + c.name + '</h4><div class="al">' + c.alias + "</div>" + rows + "</div>";
+var ESCKEYS = {"Path":1,"Awakening":1,"Moonlight Style":1,"Uncontrolled UI":1,"UI Mode":1,
+  "Key 2 — Beast Mode":1,"Cheon Houigong":1,"Forbidden Techniques":1,"Late fight":1,"Prime":1};
+var cmpKey = { A:0, B:0 };
+
+function mergedStats(c, ki){
+  var keys = KEYS[c.id];
+  if (!keys) return c.stats;
+  if (ki >= keys.length) ki = 0;
+  var out = {};
+  for (var b in c.stats) out[b] = c.stats[b];
+  var ks = keys[ki].s;
+  for (var o in ks) out[o] = ks[o];
+  return out;
 }
+
+function side(c, which){
+  var keys = KEYS[c.id], ki = cmpKey[which] || 0;
+  if (keys && ki >= keys.length) ki = 0;
+  var stats = mergedStats(c, ki), rows = "";
+  for (var k in stats){
+    if (k === "Key note") continue;
+    rows += '<div class="cmp-row"><span class="k">' + k + '</span><span class="v">' + stats[k] + "</span></div>";
+  }
+  var sel = "";
+  if (keys){
+    sel = '<div class="cmp-keys"><select data-side="' + which + '">' + keys.map(function(kk, i){
+      return '<option value="' + i + '"' + (i === ki ? " selected" : "") + ">" + kk.n + "</option>";
+    }).join("") + "</select></div>";
+  }
+  return '<div class="cmp-side"><h4>' + c.name + '</h4><div class="al">' + c.alias + "</div>" + sel + rows + "</div>";
+}
+
+function keyNameOf(c, which){
+  var keys = KEYS[c.id];
+  if (!keys) return null;
+  var ki = cmpKey[which] || 0;
+  return keys[ki >= keys.length ? 0 : ki].n;
+}
+
 function renderCmp(){
   var a = byId(selA.value), b = byId(selB.value);
-  document.getElementById("cmp").innerHTML = side(a) + '<div class="cmp-vs">VS</div>' + side(b);
+  document.getElementById("cmp").innerHTML = side(a, "A") + '<div class="cmp-vs">VS</div>' + side(b, "B");
+
+  document.querySelectorAll(".cmp-keys select").forEach(function(s){
+    s.onchange = function(){ cmpKey[s.dataset.side] = +s.value; renderCmp(); };
+  });
+
   var v;
   if (a.id === b.id) v = "Same fighter on both sides — pick two.";
   else {
@@ -1133,7 +1344,26 @@ function renderCmp(){
           r.why.toLowerCase() + ". Compare bands first, then ask whether either side has an unbounded escalator; that's usually what decides anything inside a band.";
     }
   }
-  document.getElementById("verdict").textContent = v;
+
+  var flag = "";
+  if (a.id !== b.id){
+    var ka = keyNameOf(a, "A"), kb = keyNameOf(b, "B");
+    var ea = ka && ESCKEYS[ka], eb = kb && ESCKEYS[kb];
+    if (ea && eb){
+      flag = "You're reading this at <strong>" + a.name + " / " + ka + "</strong> against <strong>" +
+        b.name + " / " + kb + "</strong>. Both sides are escalated, and the written call below assumes baseline keys — " +
+        "so it under-describes both. Where neither escalator has a stated ceiling, this stops being answerable from evidence.";
+    } else if (ea || eb){
+      var up = ea ? a : b, upk = ea ? ka : kb, down = ea ? b : a;
+      flag = "You're reading this at <strong>" + up.name + " / " + upk + "</strong> against a baseline <strong>" +
+        down.name + "</strong>. The written call below assumes baseline keys on both sides, so it understates " +
+        up.name + " here — treat the verdict as a floor, not a ceiling.";
+    } else if ((ka && ka !== KEYS[a.id][0].n) || (kb && kb !== KEYS[b.id][0].n)){
+      flag = "Non-default keys selected. The written call assumes each fighter's first key, so check the stat rows above rather than taking the verdict at face value.";
+    }
+  }
+
+  document.getElementById("verdict").innerHTML = v + (flag ? '<div class="keyflag">' + flag + "</div>" : "");
 }
 selA.onchange = renderCmp; selB.onchange = renderCmp;
 renderCmp();
