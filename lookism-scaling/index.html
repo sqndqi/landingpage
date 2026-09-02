@@ -918,10 +918,51 @@ function toast(msg){
   t.textContent = msg; t.classList.add("show");
   clearTimeout(t._t); t._t = setTimeout(function(){ t.classList.remove("show"); }, 2600);
 }
+/* Panels are downscaled before storage. localStorage caps near 5MB total and
+   a raw phone screenshot can eat 1MB alone, so 45 full-size panels never fit.
+   Longest edge is clamped to MAX_EDGE and re-encoded as JPEG. */
+var MAX_EDGE = 1100, JPEG_Q = 0.82;
+
+function shrink(dataURL, cb){
+  var img = new Image();
+  img.onload = function(){
+    var w = img.naturalWidth, hgt = img.naturalHeight;
+    if (!w || !hgt){ cb(dataURL, 0); return; }
+    var scale = Math.min(1, MAX_EDGE / Math.max(w, hgt));
+    if (scale === 1 && dataURL.length < 400000){ cb(dataURL, 0); return; }
+    var cw = Math.round(w * scale), ch = Math.round(hgt * scale);
+    try {
+      var c = document.createElement("canvas");
+      c.width = cw; c.height = ch;
+      var ctx = c.getContext("2d");
+      ctx.fillStyle = "#16161a";
+      ctx.fillRect(0, 0, cw, ch);
+      ctx.drawImage(img, 0, 0, cw, ch);
+      var out = c.toDataURL("image/jpeg", JPEG_Q);
+      cb(out.length < dataURL.length ? out : dataURL, dataURL.length - out.length);
+    } catch (e) { cb(dataURL, 0); }
+  };
+  img.onerror = function(){ cb(dataURL, 0); };
+  img.src = dataURL;
+}
+
 function readInto(id, file){
   if (!file || !/^image\//.test(file.type)){ toast("That's not an image file"); return; }
   var r = new FileReader();
-  r.onload = function(){ store[id] = r.result; if (save()){ paintSlot(id); usage(); toast("Panel added"); } };
+  r.onerror = function(){ toast("Couldn't read that file"); };
+  r.onload = function(){
+    shrink(r.result, function(finalURL, saved){
+      var prev = store[id];
+      store[id] = finalURL;
+      if (save()){
+        paintSlot(id); usage();
+        toast(saved > 20000 ? "Panel added — resized, saved " + Math.round(saved / 1024) + " KB" : "Panel added");
+      } else {
+        if (prev === undefined) delete store[id]; else store[id] = prev;
+        paintSlot(id); usage();
+      }
+    });
+  };
   r.readAsDataURL(file);
 }
 function paintSlot(id){
