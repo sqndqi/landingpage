@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DG // The James Lee Scaling Dossier</title>
+<meta name="description" content="A structured power-scaling breakdown of James Lee (DG) from Lookism, built on VS Battles Wiki tiering and chain-of-feat reasoning.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --bg:#0a0a0b;
+  --bg-2:#111113;
+  --bg-3:#17171a;
+  --line:#26262b;
+  --line-2:#35353d;
+  --ink:#f2f2f3;
+  --ink-2:#a3a3ac;
+  --ink-3:#6b6b76;
+  --accent:#d4342f;
+  --accent-dim:#7a1e1b;
+  --gold:#d9a441;
+  --ok:#4ba36b;
+  --warn:#c9862f;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --maxw:1080px;
+}
+
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+a{color:inherit}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+/* ─── type ─── */
+.eyebrow{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--ink-3);
+}
+h1,h2,h3{line-height:1.15;letter-spacing:-.02em;font-weight:700}
+h2{font-size:clamp(24px,3.6vw,34px);margin-bottom:8px}
+h3{font-size:19px}
+p{color:var(--ink-2)}
+strong{color:var(--ink);font-weight:600}
+
+/* ─── nav ─── */
+nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(10,10,11,.82);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+nav .wrap{display:flex;align-items:center;gap:24px;height:56px}
+.brand{
+  font-family:var(--mono);font-size:13px;font-weight:700;
+  letter-spacing:.12em;white-space:nowrap;
+}
+.brand span{color:var(--accent)}
+.navlinks{
+  display:flex;gap:20px;margin-left:auto;
+  overflow-x:auto;scrollbar-width:none;
+}
+.navlinks::-webkit-scrollbar{display:none}
+.navlinks a{
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);
+  text-decoration:none;white-space:nowrap;
+  padding:4px 0;border-bottom:1px solid transparent;
+  transition:color .18s,border-color .18s;
+}
+.navlinks a:hover{color:var(--ink);border-bottom-color:var(--accent)}
+
+/* ─── hero ─── */
+header.hero{
+  border-bottom:1px solid var(--line);
+  padding:88px 0 64px;
+  background:
+    radial-gradient(900px 380px at 78% -8%,rgba(212,52,47,.16),transparent 62%),
+    linear-gradient(180deg,var(--bg-2),var(--bg));
+}
+.hero-grid{display:grid;grid-template-columns:1.25fr .95fr;gap:56px;align-items:start}
+.hero h1{
+  font-size:clamp(46px,9vw,88px);
+  letter-spacing:-.045em;
+  margin:14px 0 6px;
+}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero .alias{
+  font-family:var(--mono);font-size:13px;color:var(--ink-3);
+  letter-spacing:.1em;margin-bottom:22px;
+}
+.hero .lede{font-size:17.5px;max-width:52ch}
+.hero .lede + .lede{margin-top:14px}
+
+.tagrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.tag{
+  font-family:var(--mono);font-size:11px;letter-spacing:.06em;
+  padding:5px 11px;border:1px solid var(--line-2);border-radius:999px;
+  color:var(--ink-2);background:var(--bg-3);
+}
+.tag.hot{border-color:var(--accent-dim);color:#e8918d;background:rgba(212,52,47,.08)}
+
+/* ─── stat block ─── */
+.statblock{
+  border:1px solid var(--line);border-radius:10px;
+  background:var(--bg-2);overflow:hidden;
+}
+.statblock .sb-head{
+  padding:14px 18px;border-bottom:1px solid var(--line);
+  background:linear-gradient(90deg,rgba(212,52,47,.14),transparent);
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+}
+.sb-head .t{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase}
+.sb-head .src{font-family:var(--mono);font-size:10px;color:var(--ink-3)}
+.statblock dl{display:grid;grid-template-columns:auto 1fr;gap:0}
+.statblock dt,.statblock dd{
+  padding:10px 18px;border-bottom:1px solid var(--line);font-size:13.5px;
+}
+.statblock dt{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ink-3);
+  white-space:nowrap;border-right:1px solid var(--line);
+}
+.statblock dd{color:var(--ink)}
+.statblock dl > :nth-last-child(-n+2){border-bottom:none}
+.statblock .tierval{color:var(--gold);font-weight:600}
+
+/* ─── sections ─── */
+section{padding:76px 0;border-bottom:1px solid var(--line)}
+.sec-head{margin-bottom:38px;max-width:64ch}
+.sec-head p{margin-top:10px}
+
+/* ─── panel slots ─── */
+.panel{
+  border:1px solid var(--line-2);border-radius:8px;
+  background:var(--bg-3);overflow:hidden;margin:0;
+}
+.panel .frame{
+  position:relative;
+  min-height:180px;
+  display:flex;align-items:center;justify-content:center;
+  background:
+    repeating-linear-gradient(45deg,#141417 0 10px,#171719 10px 20px);
+}
+.panel .frame img{width:100%;height:auto}
+.panel .ph{
+  padding:26px 20px;text-align:center;
+}
+.panel .ph .ico{
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;
+  color:var(--ink-3);text-transform:uppercase;
+}
+.panel .ph .fn{
+  font-family:var(--mono);font-size:12px;color:var(--gold);
+  margin-top:8px;word-break:break-all;
+}
+.panel .ph .hint{font-size:11.5px;color:var(--ink-3);margin-top:8px}
+.panel figcaption{
+  padding:11px 14px;border-top:1px solid var(--line);
+  font-size:12.5px;color:var(--ink-2);
+  display:flex;gap:10px;align-items:baseline;
+}
+.panel figcaption .ch{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;
+  color:var(--accent);white-space:nowrap;flex-shrink:0;
+}
+
+/* ─── chain ─── */
+.chain{display:flex;flex-direction:column;gap:0}
+.link{
+  display:grid;grid-template-columns:56px 1fr;gap:22px;
+  padding-bottom:34px;position:relative;
+}
+.link:not(:last-child)::before{
+  content:"";position:absolute;left:27px;top:52px;bottom:0;
+  width:1px;background:linear-gradient(180deg,var(--line-2),var(--line));
+}
+.link .num{
+  width:56px;height:56px;border-radius:50%;
+  border:1px solid var(--line-2);background:var(--bg-2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:15px;font-weight:700;color:var(--gold);
+  flex-shrink:0;z-index:1;
+}
+.link .body{padding-top:6px}
+.link h3{margin-bottom:8px}
+.link p{font-size:15px}
+.link .out{
+  margin-top:14px;padding:11px 14px;
+  border-left:2px solid var(--accent);
+  background:rgba(212,52,47,.06);
+  font-size:14px;color:var(--ink);
+}
+.link .out b{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--accent);display:block;margin-bottom:3px}
+
+.conf{
+  display:inline-block;font-family:var(--mono);font-size:10px;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:3px 8px;border-radius:4px;margin-bottom:10px;
+}
+.conf.hard{background:rgba(75,163,107,.14);color:#79c795;border:1px solid rgba(75,163,107,.3)}
+.conf.soft{background:rgba(201,134,47,.14);color:#e0a85c;border:1px solid rgba(201,134,47,.3)}
+.conf.mine{background:rgba(212,52,47,.12);color:#e8918d;border:1px solid var(--accent-dim)}
+
+/* ─── feat cards ─── */
+.feats{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px}
+.feat{
+  border:1px solid var(--line);border-radius:10px;
+  background:var(--bg-2);overflow:hidden;
+  display:flex;flex-direction:column;
+  transition:border-color .2s,transform .2s;
+}
+.feat:hover{border-color:var(--line-2);transform:translateY(-2px)}
+.feat .fbody{padding:18px;flex:1;display:flex;flex-direction:column}
+.feat h3{margin-bottom:8px;font-size:17px}
+.feat p{font-size:14px;flex:1}
+.feat .verdict{
+  margin-top:14px;padding-top:12px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:11px;letter-spacing:.05em;
+  color:var(--gold);
+}
+
+/* ─── ladder ─── */
+.ladder{display:flex;flex-direction:column;gap:10px}
+.rung{
+  display:grid;grid-template-columns:132px 1fr auto;gap:18px;align-items:center;
+  border:1px solid var(--line);border-radius:8px;
+  background:var(--bg-2);padding:14px 18px;
+  transition:border-color .2s,background .2s;
+}
+.rung:hover{border-color:var(--line-2);background:var(--bg-3)}
+.rung .band{
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);
+}
+.rung .who{font-size:14.5px;color:var(--ink)}
+.rung .who small{display:block;color:var(--ink-3);font-size:12.5px;margin-top:2px}
+.rung .ap{
+  font-family:var(--mono);font-size:11.5px;color:var(--gold);
+  text-align:right;white-space:nowrap;
+}
+.rung.apex{
+  border-color:var(--accent-dim);
+  background:linear-gradient(90deg,rgba(212,52,47,.1),var(--bg-2));
+}
+.rung.apex .band{color:var(--accent)}
+
+/* ─── table ─── */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--bg-2)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:13.5px}
+th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line)}
+th{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);
+  background:var(--bg-3);position:sticky;top:0;
+}
+td{color:var(--ink-2)}
+td:first-child{color:var(--ink);font-weight:600}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:rgba(255,255,255,.015)}
+.pill{
+  font-family:var(--mono);font-size:10.5px;padding:2px 7px;border-radius:4px;
+  border:1px solid var(--line-2);color:var(--ink-2);
+}
+
+/* ─── notes / method ─── */
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.note{border-left:2px solid var(--line-2);padding:2px 0 2px 18px}
+.note h3{font-size:15px;margin-bottom:6px}
+.note p{font-size:14px}
+.note.flag{border-left-color:var(--accent)}
+
+.callout{
+  border:1px solid var(--line-2);border-radius:10px;
+  background:var(--bg-2);padding:22px 24px;margin-top:30px;
+}
+.callout p{font-size:14.5px}
+.callout p + p{margin-top:10px}
+.callout code{
+  font-family:var(--mono);font-size:12.5px;
+  background:var(--bg-3);border:1px solid var(--line);
+  padding:1.5px 6px;border-radius:4px;color:var(--gold);
+}
+
+/* ─── sources ─── */
+.srcs{list-style:none;display:grid;gap:10px}
+.srcs li{font-size:14px;color:var(--ink-2)}
+.srcs a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line-2)}
+.srcs a:hover{border-bottom-color:var(--accent);color:#fff}
+.srcs .k{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);letter-spacing:.08em;margin-right:8px}
+
+footer{padding:44px 0 60px}
+footer p{font-size:12.5px;color:var(--ink-3);max-width:70ch}
+footer p + p{margin-top:10px}
+
+/* ─── responsive ─── */
+@media (max-width:880px){
+  .hero-grid{grid-template-columns:1fr;gap:38px}
+  header.hero{padding:56px 0 48px}
+  section{padding:56px 0}
+  .rung{grid-template-columns:1fr;gap:6px}
+  .rung .ap{text-align:left}
+  .link{grid-template-columns:40px 1fr;gap:16px}
+  .link .num{width:40px;height:40px;font-size:13px}
+  .link:not(:last-child)::before{left:19px;top:44px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">DG<span>//</span>DOSSIER</div>
+    <div class="navlinks">
+      <a href="#profile">Profile</a>
+      <a href="#chain">The Chain</a>
+      <a href="#feats">Feats</a>
+      <a href="#ladder">Ladder</a>
+      <a href="#matchups">Matchups</a>
+      <a href="#method">Method</a>
+      <a href="#sources">Sources</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Lookism · Power Scaling · Case File 01</div>
+      <h1>James <em>Lee</em></h1>
+      <div class="alias">A.K.A. DG · B. Diego Kang · Legend of the 1st Generation</div>
+      <p class="lede">The 1st Generation ended because one person decided it should. James Lee didn't win a war between the Kings and the Circles — he walked through it, took pieces off the people at the top, and then deleted himself from the story.</p>
+      <p class="lede">This dossier reconstructs where that puts him. Not vibes: an explicit chain from the verse's hardest anchor feat up to the apex, every link labeled with how much weight it can actually hold.</p>
+      <div class="tagrow">
+        <span class="tag hot">Apex — 1st Gen</span>
+        <span class="tag">One of Charles Choi's Ten Geniuses</span>
+        <span class="tag">Legs-first striker</span>
+        <span class="tag">Awakening / Path</span>
+      </div>
+    </div>
+
+    <div class="statblock">
+      <div class="sb-head">
+        <div class="t">Stat Block</div>
+        <div class="src">per VS Battles Wiki</div>
+      </div>
+      <dl>
+        <dt>Tier</dt><dd class="tierval">At least 9-A · higher w/ Awakening · likely High 8-C</dd>
+        <dt>Revised</dt><dd class="tierval">At least High 8-C · higher with Path</dd>
+        <dt>Att. Potency</dt><dd>Small Building → Large Building level</dd>
+        <dt>Speed</dt><dd>Scales to the verse's Supersonic top band</dd>
+        <dt>Style</dt><dd>Leg-dominant striking, acrobatics, mixed martial arts</dd>
+        <dt>Intelligence</dt><dd>Genius — counted among the Ten Geniuses</dd>
+        <dt>Status</dt><dd>Retired identity; active as celebrity "DG"</dd>
+      </dl>
+    </div>
+  </div>
+</header>
+
+<section id="profile">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">01 — Who he actually is</div>
+      <h2>Two identities, one ceiling</h2>
+      <p>The name "James Lee" is doing double duty in this series, and getting the scaling right starts with not conflating them.</p>
+    </div>
+
+    <div class="feats">
+      <div class="feat">
+        <div class="fbody">
+          <h3>Diego Kang → "James Lee"</h3>
+          <p>The original. Rose during the era when Kings and Circles carved up territory, then systematically dismantled that structure. Trained his legs specifically so his attacks couldn't be tracked, and challenged each of the Kings at least once — explicitly to measure himself against the ceiling.</p>
+          <div class="verdict">→ This is the scaling subject</div>
+        </div>
+      </div>
+      <div class="feat">
+        <div class="fbody">
+          <h3>DG</h3>
+          <p>The identity he built after the goal was accomplished. A celebrity, folded into Charles Choi's orbit and counted among his Ten Geniuses — which is the tell that his value was never purely physical.</p>
+          <div class="verdict">→ Same person, later era</div>
+        </div>
+      </div>
+      <div class="feat">
+        <div class="fbody">
+          <h3>"James Lee" (2nd body)</h3>
+          <p>The name got handed down. Daniel Park's second body operates under it. Different character, different feats, different tier — do not pool their showings.</p>
+          <div class="verdict">→ Excluded from this file</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="chain">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">02 — The argument</div>
+      <h2>The scaling chain</h2>
+      <p>Lookism has no numbers on the page. So you anchor to the one quantifiable showing the verse has, chain to it through direct in-story comparisons, and mark clearly where the chain stops being evidence and starts being inference.</p>
+    </div>
+
+    <div class="chain">
+
+      <div class="link">
+        <div class="num">1</div>
+        <div class="body">
+          <span class="conf hard">Anchor · load-bearing</span>
+          <h3>Goo Kim sets the speed floor</h3>
+          <p>The verse's top band is pinned to <strong>Goo Kim</strong>. Pressure-testing against Younger Goo — forcing him to dual wield to keep up — is the feat VS Battles uses to put Goo at <strong>at least Supersonic</strong>. Everything above the mid-tier band inherits from here.</p>
+          <div class="out"><b>Yields</b>At least Supersonic · Large Building level attack potency</div>
+        </div>
+      </div>
+
+      <div class="link">
+        <div class="num">2</div>
+        <div class="body">
+          <span class="conf hard">Direct comparison</span>
+          <h3>Gun Park sits level with Goo</h3>
+          <p>Gun and Goo have gone at each other repeatedly and neither has produced a clean win. Stalemate across multiple encounters is about as strong as equality evidence gets in a feat-poor verse — so Gun takes the same band, and Gun's constant Ultra Instinct state is a <em>quality</em> modifier on top of it, not a tier bump.</p>
+          <div class="out"><b>Yields</b>Gun Park ≈ Goo Kim — the God tier baseline</div>
+        </div>
+      </div>
+
+      <div class="link">
+        <div class="num">3</div>
+        <div class="body">
+          <span class="conf hard">Direct comparison</span>
+          <h3>Daniel's 2nd body brackets the God tier</h3>
+          <p>Daniel Park fractured the arms of <strong>both</strong> Gun and Goo in separate confrontations. That's not "he scales near them" — that's damage output landing on established God tier durability. It fixes the top of the ladder as a tight cluster rather than a staircase.</p>
+          <div class="out"><b>Yields</b>The God tier is a narrow band, not a spread</div>
+        </div>
+      </div>
+
+      <div class="link">
+        <div class="num">4</div>
+        <div class="body">
+          <span class="conf soft">Cross-generation · inference</span>
+          <h3>The Kings are the 1st Gen's ceiling</h3>
+          <p>Taesoo Ma and Gongseob Ji weren't background monsters — they were the apex of the era James was measuring himself against, and both carry permanent damage from him: Ma's right eye, and Ji's leg loss. Costing the top of a generation body parts is a hard physical statement about output, and neither man is treated as beneath the modern top tiers.</p>
+          <div class="out"><b>Yields</b>James Lee clears the 1st Gen ceiling outright</div>
+        </div>
+      </div>
+
+      <div class="link">
+        <div class="num">5</div>
+        <div class="body">
+          <span class="conf mine">This site's read</span>
+          <h3>Therefore: baseline at the God tier, above it with Path</h3>
+          <p>Chain it: James beats the ceiling of his generation (4) → that ceiling isn't written as inferior to the modern apex → the modern apex is the Gun/Goo band (2, 3) anchored by Goo's speed feat (1). VS Battles lands him <strong>At least High 8-C, higher with Path</strong>, which is exactly this: baseline <em>at</em> the God tier, escalating past it in his upper states.</p>
+          <p style="margin-top:10px">Where I'd argue harder than the wiki: the "higher with Path" clause is doing more work than the numbers show, because Path has never been given a bounded on-page ceiling. That's an upward-open modifier, not a fixed multiplier.</p>
+          <div class="out"><b>Verdict</b>At least High 8-C · Large Building level · at least Supersonic · upward-open with Path</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="feats">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">03 — The receipts</div>
+      <h2>Feat dossier</h2>
+      <p>Each entry is framed for the panel that proves it. Drop your images in and the citations line up underneath.</p>
+    </div>
+
+    <div class="feats">
+
+      <div class="feat">
+        <figure class="panel">
+          <div class="frame" data-panel="panels/feat-kings.jpg"></div>
+          <figcaption><span class="ch">1ST GEN</span><span>James Lee ends the Kings-and-Circles era</span></figcaption>
+        </figure>
+        <div class="fbody">
+          <h3>Ended an era single-handed</h3>
+          <p>The Circles collapsed because the Kings holding them up got beaten. Not a coalition, not attrition — one fighter clearing the board. Structural feats like this scale poorly on their own, but they establish that nobody in the generation had an answer.</p>
+          <div class="verdict">Weight: high · sets the ceiling</div>
+        </div>
+      </div>
+
+      <div class="feat">
+        <figure class="panel">
+          <div class="frame" data-panel="panels/feat-taesoo.jpg"></div>
+          <figcaption><span class="ch">1ST GEN</span><span>Taesoo Ma loses his right eye</span></figcaption>
+        </figure>
+        <div class="fbody">
+          <h3>Permanently mutilated the apex</h3>
+          <p>Ma keeps that injury for the rest of the series. Gongseob Ji's right leg goes the same way. Permanent damage inflicted on generation-apex durability is the cleanest raw-output evidence in the file — it survives every retcon because the scars stay on the page.</p>
+          <div class="verdict">Weight: high · attack potency</div>
+        </div>
+      </div>
+
+      <div class="feat">
+        <figure class="panel">
+          <div class="frame" data-panel="panels/feat-legs.jpg"></div>
+          <figcaption><span class="ch">1ST GEN</span><span>Leg speed — attacks nobody could follow</span></figcaption>
+        </figure>
+        <div class="fbody">
+          <h3>Trained past visual tracking</h3>
+          <p>He built his legs specifically so opponents couldn't see the strike coming. Combat speed described as untrackable by fighters who are themselves elite is the qualitative version of the Goo anchor — it's why he inherits the verse's top speed band rather than sitting under it.</p>
+          <div class="verdict">Weight: medium-high · speed</div>
+        </div>
+      </div>
+
+      <div class="feat">
+        <figure class="panel">
+          <div class="frame" data-panel="panels/feat-gauntlet.jpg"></div>
+          <figcaption><span class="ch">1ST GEN</span><span>Challenging each King in turn</span></figcaption>
+        </figure>
+        <div class="fbody">
+          <h3>Ran the gauntlet on purpose</h3>
+          <p>He sought out the Kings individually to gauge his own level. That's a stamina and consistency feat as much as a power one — repeated fights against the top of a generation without a recorded loss, treated in-story as calibration rather than struggle.</p>
+          <div class="verdict">Weight: medium · stamina, consistency</div>
+        </div>
+      </div>
+
+      <div class="feat">
+        <figure class="panel">
+          <div class="frame" data-panel="panels/feat-genius.jpg"></div>
+          <figcaption><span class="ch">DG ERA</span><span>Recruited among the Ten Geniuses</span></figcaption>
+        </figure>
+        <div class="fbody">
+          <h3>Counted as a genius, not muscle</h3>
+          <p>Charles Choi collects utility. Being placed among the Ten Geniuses and helping rebuild an empire is an intelligence rating with in-story backing — relevant because Lookism fights are repeatedly decided by read and adaptation, not just output.</p>
+          <div class="verdict">Weight: medium · intelligence</div>
+        </div>
+      </div>
+
+      <div class="feat">
+        <figure class="panel">
+          <div class="frame" data-panel="panels/feat-path.jpg"></div>
+          <figcaption><span class="ch">REVISION</span><span>Awakening / Path — the open-ended modifier</span></figcaption>
+        </figure>
+        <div class="fbody">
+          <h3>Awakening and Path</h3>
+          <p>Both wiki revisions treat these as escalators above his baseline: "higher with Awakening," then "higher with Path." Neither has a demonstrated hard ceiling on the page, which is the single largest source of variance in any James Lee matchup.</p>
+          <div class="verdict">Weight: contested · upward-open</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="ladder">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">04 — Where everyone lands</div>
+      <h2>The ladder</h2>
+      <p>Bands, not a strict ranking. Inside a band, matchups swing on style, condition and read — which is exactly how Lookism writes its fights.</p>
+    </div>
+
+    <div class="ladder">
+      <div class="rung apex">
+        <div class="band">Apex</div>
+        <div class="who">James Lee / DG<small>Clears his generation's ceiling; upward-open with Path</small></div>
+        <div class="ap">≥ High 8-C</div>
+      </div>
+      <div class="rung">
+        <div class="band">God Tier</div>
+        <div class="who">Gun Park<small>Constant Ultra Instinct; stalemates with Goo</small></div>
+        <div class="ap">Large Building</div>
+      </div>
+      <div class="rung">
+        <div class="band">God Tier</div>
+        <div class="who">Goo Kim<small>The speed anchor; higher again in Moonlight Style</small></div>
+        <div class="ap">Large Building</div>
+      </div>
+      <div class="rung">
+        <div class="band">God Tier</div>
+        <div class="who">Daniel Park — 2nd body<small>Fractured Gun's and Goo's arms</small></div>
+        <div class="ap">Sm. Building+ → Lg.</div>
+      </div>
+      <div class="rung">
+        <div class="band">High Tier</div>
+        <div class="who">1st Gen Kings — Taesoo Ma, Gongseob Ji<small>Generation apex; both permanently marked by James</small></div>
+        <div class="ap">Sm. Building → +</div>
+      </div>
+      <div class="rung">
+        <div class="band">High Tier</div>
+        <div class="who">Crew leaders &amp; elite strikers<small>e.g. Sinu Han's band</small></div>
+        <div class="ap">Small Building</div>
+      </div>
+      <div class="rung">
+        <div class="band">Mid Tier</div>
+        <div class="who">Ranked street fighters<small>Below the Supersonic inheritance line</small></div>
+        <div class="ap">Wall → Sm. Building</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>Tier key.</strong> <code>9-A</code> = Small Building level. <code>High 8-C</code> = Large Building level. The whole verse lives in a narrow slice of the VS Battles ladder, which is why single feats swing conclusions so hard here — a one-step move is a huge relative jump.</p>
+    </div>
+  </div>
+</section>
+
+<section id="matchups">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">05 — Head to head</div>
+      <h2>Matchup table</h2>
+      <p>Read left to right: what James brings, what they bring, and what actually decides it.</p>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Opponent</th><th>Their edge</th><th>His edge</th><th>Decider</th><th>Call</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Gun Park</td>
+            <td>Constant Ultra Instinct; deepest technical base in the verse</td>
+            <td>Untrackable leg speed attacks UI's reaction premise directly</td>
+            <td>Whether Path outpaces a reactive defense that never switches off</td>
+            <td><span class="pill">James, narrow</span></td>
+          </tr>
+          <tr>
+            <td>Goo Kim</td>
+            <td>The speed anchor itself; Moonlight Style escalation</td>
+            <td>Range and output from a legs-first game</td>
+            <td>Two open-ended escalators pointed at each other</td>
+            <td><span class="pill">Coin flip</span></td>
+          </tr>
+          <tr>
+            <td>Daniel Park — 2nd body</td>
+            <td>Absorbs and reproduces styles at speed</td>
+            <td>Beat an entire generation's apex before Daniel's book opened</td>
+            <td>Fight length — Daniel gets better the longer it runs</td>
+            <td><span class="pill">James, early</span></td>
+          </tr>
+          <tr>
+            <td>Taesoo Ma</td>
+            <td>King-tier durability and raw frame</td>
+            <td>Already did it — the eye is the receipt</td>
+            <td>Nothing; this one is settled on the page</td>
+            <td><span class="pill">James, clean</span></td>
+          </tr>
+          <tr>
+            <td>Gongseob Ji</td>
+            <td>King-tier; enormous physical baseline</td>
+            <td>Same generation, same result</td>
+            <td>Settled on the page</td>
+            <td><span class="pill">James, clean</span></td>
+          </tr>
+          <tr>
+            <td>High-tier crew leaders</td>
+            <td>Numbers, terrain, ambush</td>
+            <td>Full band above them on both speed and output</td>
+            <td>Stamina drain across sequential fights only</td>
+            <td><span class="pill">James, stomp</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="method">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">06 — How this was built</div>
+      <h2>Method &amp; honest limits</h2>
+      <p>The rules I held myself to, including where the argument is weakest.</p>
+    </div>
+
+    <div class="notes">
+      <div class="note">
+        <h3>Anchor, then chain</h3>
+        <p>One quantified feat carries the verse — Goo's speed showing. Everything else reaches the top band by chaining to it through in-story comparison, never by assertion.</p>
+      </div>
+      <div class="note">
+        <h3>Direct &gt; transitive</h3>
+        <p>"A beat B" outranks "A is like C who is like B." Gun/Goo stalemates and Daniel's arm breaks are direct; the 1st Gen bridge is not, and it's marked accordingly.</p>
+      </div>
+      <div class="note">
+        <h3>Confidence is labeled</h3>
+        <p>Every link carries a tag. <span class="conf hard" style="margin:0">Hard</span> is on-page. <span class="conf soft" style="margin:0">Soft</span> is reasonable inference. <span class="conf mine" style="margin:0">Mine</span> is my own read and you're allowed to reject it.</p>
+      </div>
+      <div class="note flag">
+        <h3>Limit: cross-generation gaps</h3>
+        <p>The weakest link is step 4. Comparing 1st Gen fighters to the modern God tier relies on the series never writing the Kings as outclassed — an absence of evidence, not evidence. Kill that assumption and James drops a band.</p>
+      </div>
+      <div class="note flag">
+        <h3>Limit: Path has no ceiling</h3>
+        <p>"Higher with Path" is unbounded on the page. That makes his upper end unfalsifiable, which is a weakness in an argument, not a strength. I've kept the baseline claim separate from it for exactly this reason.</p>
+      </div>
+      <div class="note flag">
+        <h3>Limit: the wiki moves</h3>
+        <p>VS Battles Lookism tiers get revised regularly — the profile itself carries an original and an upgraded line. Treat every number here as a snapshot with a date, not a settled fact.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>Adding your panels.</strong> Drop images into <code>Q/panels/</code> using the filenames the empty frames show — <code>feat-kings.jpg</code>, <code>feat-taesoo.jpg</code>, <code>feat-legs.jpg</code>, <code>feat-gauntlet.jpg</code>, <code>feat-genius.jpg</code>, <code>feat-path.jpg</code>. They render automatically; anything missing keeps its labeled placeholder, so the page never breaks.</p>
+      <p>Use panels you have the right to post, and credit Park Tae-joon. Official English chapters are on WEBTOON — citing chapter numbers next to a panel is what makes a scaling argument checkable in the first place.</p>
+    </div>
+  </div>
+</section>
+
+<section id="sources">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">07 — Where this came from</div>
+      <h2>Sources</h2>
+      <p>Tiers and stat lines are quoted from VS Battles Wiki. The chain, the ladder placements and every matchup call are mine.</p>
+    </div>
+
+    <ul class="srcs">
+      <li><span class="k">TIER</span><a href="https://vsbattles.fandom.com/wiki/DG_(James_Lee)" target="_blank" rel="noopener">VS Battles Wiki — DG (James Lee)</a></li>
+      <li><span class="k">TIER</span><a href="https://vsbattles.fandom.com/wiki/Gun_Park" target="_blank" rel="noopener">VS Battles Wiki — Gun Park</a></li>
+      <li><span class="k">TIER</span><a href="https://vsbattles.fandom.com/wiki/Goo_Kim" target="_blank" rel="noopener">VS Battles Wiki — Goo Kim</a></li>
+      <li><span class="k">VERSE</span><a href="https://vsbattles.fandom.com/wiki/Lookism_(PTJ_verse)" target="_blank" rel="noopener">VS Battles Wiki — Lookism (PTJ verse)</a></li>
+      <li><span class="k">INDEX</span><a href="https://vsbattles.fandom.com/wiki/Category:Lookism" target="_blank" rel="noopener">VS Battles Wiki — Lookism category</a></li>
+      <li><span class="k">REVISION</span><a href="https://vsbattles.com/threads/lookism-scaling-revision.185628/" target="_blank" rel="noopener">VSBW Forum — Lookism Scaling Revision</a></li>
+      <li><span class="k">REVISION</span><a href="https://vsbattles.com/threads/accepted-lookism-mid-tier-ls-upgrades-god-tier-ls-downgrades.192167/" target="_blank" rel="noopener">VSBW Forum — [Accepted] Mid Tier+ upgrades / God Tier downgrades</a></li>
+      <li><span class="k">REVISION</span><a href="https://vsbattles.com/threads/complete-lookism-speed-revision.169617/" target="_blank" rel="noopener">VSBW Forum — Complete Lookism Speed Revision</a></li>
+      <li><span class="k">LORE</span><a href="https://lookism.fandom.com/wiki/Diego_Kang" target="_blank" rel="noopener">Lookism Wiki — Diego Kang</a></li>
+      <li><span class="k">LORE</span><a href="https://lookism.fandom.com/wiki/1st_Generation" target="_blank" rel="noopener">Lookism Wiki — 1st Generation</a></li>
+      <li><span class="k">SERIES</span><a href="https://en.wikipedia.org/wiki/Lookism_(manhwa)" target="_blank" rel="noopener">Wikipedia — Lookism (manhwa)</a></li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><strong>Lookism</strong> is created by Park Tae-joon. This is an unofficial fan analysis with no affiliation to the author or publisher. All character names and story events belong to their rights holders.</p>
+    <p>Tier ratings quoted from VS Battles Wiki, which revises them over time. Scaling chain, ladder placements and matchup verdicts are the author's own reasoning and are meant to be argued with.</p>
+    <p style="margin-top:18px;font-family:var(--mono);letter-spacing:.1em;font-size:11px">DG // DOSSIER · CASE FILE 01</p>
+  </div>
+</footer>
+
+<script>
+// Panel loader: swap in a real image if the file exists, otherwise keep a
+// labeled placeholder so an empty panels/ directory never breaks the layout.
+document.querySelectorAll('.frame[data-panel]').forEach(function (frame) {
+  var src = frame.getAttribute('data-panel');
+  var name = src.split('/').pop();
+
+  var ph = document.createElement('div');
+  ph.className = 'ph';
+  ph.innerHTML =
+    '<div class="ico">Panel slot — empty</div>' +
+    '<div class="fn">' + name + '</div>' +
+    '<div class="hint">Add this file to Q/panels/ to fill the frame</div>';
+  frame.appendChild(ph);
+
+  var img = new Image();
+  img.alt = frame.parentElement.querySelector('figcaption').textContent.trim();
+  img.onload = function () {
+    frame.innerHTML = '';
+    frame.appendChild(img);
+  };
+  img.src = src;
+});
+
+// Highlight the section currently in view in the nav.
+var links = Array.prototype.slice.call(document.querySelectorAll('.navlinks a'));
+var obs = new IntersectionObserver(function (entries) {
+  entries.forEach(function (e) {
+    if (!e.isIntersecting) return;
+    links.forEach(function (a) {
+      var on = a.getAttribute('href') === '#' + e.target.id;
+      a.style.color = on ? 'var(--ink)' : '';
+      a.style.borderBottomColor = on ? 'var(--accent)' : '';
+    });
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+document.querySelectorAll('section[id]').forEach(function (s) { obs.observe(s); });
+</script>
+
+</body>
+</html>
