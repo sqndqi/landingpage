@@ -109,6 +109,29 @@ section{padding:70px 0;border-bottom:1px solid var(--line);scroll-margin-top:56p
 .gload b{color:var(--ink);display:block;margin-bottom:4px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--accent)}
 
 /* chapter field on feat cards */
+/* panel checklist */
+.cl{border:1px solid var(--line);border-radius:10px;background:var(--bg-2);overflow:hidden;margin-top:20px}
+.cl-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 17px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,rgba(212,52,47,.13),transparent);flex-wrap:wrap}
+.cl-head .t{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase}
+.cl-prog{font-family:var(--mono);font-size:11px;color:var(--gold)}
+.cl-grp{border-bottom:1px solid var(--line)}
+.cl-grp:last-child{border-bottom:none}
+.cl-who{display:flex;align-items:baseline;gap:10px;padding:9px 17px;background:var(--bg-3);font-size:13px;font-weight:600}
+.cl-who small{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:400}
+.cl-row{display:grid;grid-template-columns:20px 74px 1fr auto;gap:12px;align-items:baseline;padding:8px 17px;border-top:1px solid var(--line);font-size:13px}
+.cl-row .box{font-family:var(--mono);font-size:12px;color:var(--ink-3);line-height:1.3}
+.cl-row.done .box{color:var(--ok)}
+.cl-row .era{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;color:var(--accent)}
+.cl-row .cap{color:var(--ink-2)}
+.cl-row.done .cap{color:var(--ink-3);text-decoration:line-through}
+.cl-row .ch{font-family:var(--mono);font-size:10px;color:var(--gold);white-space:nowrap}
+@media print{
+  nav,footer,.btnrow,.toast,section:not(#panels){display:none!important}
+  body{background:#fff;color:#000}
+  .cl,.cl-grp,.cl-row{border-color:#ccc}
+  .cl-who,.cl-head{background:#f2f2f2}
+  .cl-row .cap,.cl-row .box{color:#000}
+}
 .chin{width:46px;font-family:var(--mono);font-size:9.5px;padding:2px 5px;background:var(--bg-3);color:var(--gold);border:1px solid var(--line-2);border-radius:4px;text-align:center;flex-shrink:0}
 .chin:focus{outline:none;border-color:var(--accent)}
 .chin::placeholder{color:var(--ink-3)}
@@ -449,6 +472,15 @@ footer p + p{margin-top:9px}
       </div>
       <input type="file" id="importFile" accept="application/json" hidden>
     </div>
+    <div class="cl">
+      <div class="cl-head">
+        <div class="t">Panel checklist</div>
+        <div class="cl-prog" id="clProg">—</div>
+      </div>
+      <div id="clBody"></div>
+    </div>
+    <div class="btnrow"><button class="btn" onclick="window.print()">Print checklist</button></div>
+
     <div class="callout">
       <h3>On sourcing</h3>
       <p>Use panels you have the right to use, and credit Park Tae-joon. Official English chapters are on WEBTOON — and citing the chapter beside a panel is what makes a scaling claim checkable instead of merely asserted, which is the entire point of a page like this.</p>
@@ -1480,6 +1512,33 @@ document.getElementById("clearBtn").onclick = function(){
   store = {}; save(); Object.keys(FEATBYID).forEach(paintSlot); usage(); toast("All panels cleared");
 };
 usage();
+
+/* ── panel checklist: every slot, its era tag and caption, filled or not ── */
+function renderChecklist(){
+  var body = document.getElementById("clBody");
+  if (!body) return;
+  var done = 0, total = 0;
+  body.innerHTML = CHARS.map(function(c){
+    var rows = c.feats.map(function(f){
+      var filled = !!(store[f.id] || f.file);
+      total++; if (filled) done++;
+      var ch = chapters[f.id];
+      return '<div class="cl-row' + (filled ? " done" : "") + '">' +
+        '<span class="box">' + (filled ? "[x]" : "[ ]") + "</span>" +
+        '<span class="era">' + f.era + "</span>" +
+        '<span class="cap">' + f.cap + "</span>" +
+        '<span class="ch">' + (ch ? "ch. " + ch : "") + "</span></div>";
+    }).join("");
+    return '<div class="cl-grp"><div class="cl-who">' + c.name +
+      "<small>" + c.feats.length + " panel" + (c.feats.length === 1 ? "" : "s") + "</small></div>" + rows + "</div>";
+  }).join("");
+  document.getElementById("clProg").textContent = done + " of " + total + " filled";
+}
+
+// keep it current: usage() runs after every add, remove, import and clear
+var _usage = usage;
+usage = function(){ _usage(); renderChecklist(); };
+renderChecklist();
 
 /* ── nav highlight ── */
 var links = Array.prototype.slice.call(document.querySelectorAll(".navlinks a"));
